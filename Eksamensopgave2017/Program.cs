@@ -53,7 +53,7 @@ namespace Eksamensopgave2017 {
         if (int.Parse(split[0]) > 0) {
           // Loaded into Product.All by BaseModel Constructor
           // Added to global suppresion file.
-          new User(int.Parse(split[0]), split[1], split[2], split[4], split[3],N decimal.Parse(split[5]));
+          new User(int.Parse(split[0]), split[1], split[2], split[4], split[3], decimal.Parse(split[5]));
         }
       });
       return true;
