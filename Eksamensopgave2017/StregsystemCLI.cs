@@ -27,17 +27,14 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayUserNotFound(string username) {
-      Error();
       Console.WriteLine("No user with username [" + username + "] found");
     }
 
     public void DisplayProductNotFound(string id) {
-      Error();
       Console.WriteLine("Intet produkt med id [" + id + "] found");
     }
 
     public void DisplayProductInactive() {
-      Error();
       Console.WriteLine("Attempted to purchase inacctive product");
     }
 
@@ -66,12 +63,10 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayTooManyArgumentsError(string args) {
-      Error();
       Console.WriteLine("[" + args + "] too many arguments for this command");
     }
 
     public void DisplayAdminCommandNotFoundMessage(string args) {
-      Error();
       Console.WriteLine("[" + args + "] is not a valid admin commando");
     }
 
@@ -93,17 +88,14 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayInsufficientCash(User u) {
-      Error();
       Console.WriteLine("[" + u.Username + "] Not enough credit to purchase product");
     }
 
     public void DisplayInsufficientCash(User u, int count) {
-      Error();
       Console.WriteLine("[" + u.Username + "] Not enough credit to purchase " + count.ToString() + "x products");
     }
 
     public void DisplayGeneralError(string msg) {
-      Error();
       Console.WriteLine(msg);
     }
 
@@ -111,10 +103,6 @@ namespace Eksamensopgave2017 {
       Console.Clear();
       DisplayActiveProducts();
       Console.Write("\n>");
-    }
-
-    private void Error() {
-      Console.Write("ERROR: ");
     }
 
     public void DisplayAddedCreditsToUser(User u, double amount) {
