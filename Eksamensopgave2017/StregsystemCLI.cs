@@ -8,12 +8,22 @@ namespace Eksamensopgave2017 {
   class StregsystemCLI : IStregsystemUI {
     IStregsystem _sys;
 
+    Dictionary<string, Action<dynamic, dynamic>> _commands = new Dictionary<string, Action<dynamic, dynamic>>();
+
     public IStregsystem Sys {
       get { return _sys; }
     }
 
     public StregsystemCLI(IStregsystem sy) {
       _sys = sy;
+
+      _commands.Add(":q", (x, y) => { Close(); });
+      _commands.Add(":quit", (x, y) => { Close(); });
+      //_commands.Add(":activate", (x, y) => { Sys.ChangeProductActive(x, true); DisplayActivation(x, true); });
+      //_commands.Add(":deactivate", (x, y) => { Sys.ChangeProductActive(x, false); DisplayActivation(x, false); });
+      //_commands.Add(":crediton", (x, y) => { Sys.ChangeProductCredit(x, true); DisplayCreditChange(x, false); });
+      //_commands.Add(":creditoff", (x, y) => { Sys.ChangeProductCredit(x, false); DisplayCreditChange(x, false); });
+      //_commands.Add(":addcredits", (x, y) => { Sys.AddCreditsToUser(Sys.GetUser(x), y); DisplayAddedCreditsToUser(Sys.GetUser(x), y); });
     }
 
     public void DisplayUserNotFound(string username) {
@@ -31,25 +41,19 @@ namespace Eksamensopgave2017 {
       Console.WriteLine("Attempted to purchase inacctive product");
     }
 
-    //public void DisplayUserInfo(User u) {
+    public void DisplayUserInfo(User u) {
 
-    //  PrintUserStats(u);
-    //  if (u.Balance < 50)
-    //    DisplayBalanceBelowFifty();
+      PrintUserStats(u);
+      if (u.Balance < 50)
+        DisplayBalanceBelowFifty();
 
-    //  List<Transaction> t;
-    //  int i = 0;
-    //  t = Sys.GetTransactionList(u);
-    //  t = t.OrderByDescending(x => x.Id).ToList();
-    //  Console.WriteLine("Last transactions:");
-    //  if (t.Count > 10)
-    //    for (i = 0; i < 11; i++)
-    //      Console.WriteLine(i.ToString() + ". " + t[i].ToString());
-    //  else
-    //    foreach (var tran in t)
-    //      Console.WriteLine((++i).ToString() + ". " + tran.ToString());
+      int i = 0;
+      var t = Sys.GetTransactions(u, 20);
+      Console.WriteLine("Last transactions:");
+      foreach (var tran in t)
+        Console.WriteLine((++i).ToString() + ". " + tran.ToString());
 
-    //}
+    }
 
     private void PrintUserStats(User u) {
       Console.WriteLine("*------------------------------");
@@ -103,11 +107,11 @@ namespace Eksamensopgave2017 {
       Console.WriteLine(msg);
     }
 
-    //public void DisplayReadyForCommand() {
-    //  Console.Clear();
-    //  DisplayActiveProducts();
-    //  Console.Write("\n>");
-    //}
+    public void DisplayReadyForCommand() {
+      Console.Clear();
+      DisplayActiveProducts();
+      Console.Write("\n>");
+    }
 
     private void Error() {
       Console.Write("ERROR: ");
@@ -121,13 +125,13 @@ namespace Eksamensopgave2017 {
       Console.WriteLine("Please note that your balance is below 50kr!");
     }
 
-    //private void DisplayActiveProducts() {
-    //  Console.Write(string.Format("{0, -4}|{1, 7} - {2}", "ID", "Price", "Product"));
-    //  DisplayHelpOptions();
-    //  foreach (Product p in Sys.GetActiveProducts()) {
-    //    Console.WriteLine(p.ToString());
-    //  }
-    //}
+    private void DisplayActiveProducts() {
+      Console.Write(string.Format("{0, -4}|{1, 7} - {2}", "ID", "Price", "Product"));
+      DisplayHelpOptions();
+      foreach (Product p in Product.All.Where(p => p.Active() )) {
+        Console.WriteLine(p);
+      }
+    }
 
     public void DisplayEnterToCont() {
       Console.WriteLine("\nPress enter to return to menu");
@@ -159,7 +163,13 @@ namespace Eksamensopgave2017 {
     }
 
     public void Start() {
-      throw new NotImplementedException();
+      Console.Write("Enter\n> ");
+      var input = Console.ReadLine();
+
+      if(input[0] == ':') {
+        _commands[input].Invoke('w', 'y');
+      }
+      Start();
     }
   }
 }

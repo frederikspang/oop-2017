@@ -12,11 +12,11 @@ namespace Eksamensopgave2017 {
       try {
         LoadProducts();
         LoadUsers();
-        //IStregsystem stregsystem = new Stregsystem();
-        //IStregsystemUI ui = new StregsystemCLI(stregsystem);
+        IStregsystem stregsystem = new Stregsystem();
+        IStregsystemUI ui = new StregsystemCLI(stregsystem);
         //StregsystemController sc = new StregsystemController(ui, stregsystem);
 
-        //ui.Start();
+        ui.Start();
         foreach (User prod in User.All) {
           Console.WriteLine(prod);
         }
