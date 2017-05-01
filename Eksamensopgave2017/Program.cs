@@ -12,12 +12,13 @@ namespace Eksamensopgave2017 {
       try {
         LoadProducts();
         LoadUsers();
-	      //IStregsystem stregsystem = new Stregsystem();
-	      //IStregsystemUI ui = new StregsystemCLI(stregsystem);
-	      //StregsystemController sc = new StregsystemController(ui, stregsystem);
+        //IStregsystem stregsystem = new Stregsystem();
+        //IStregsystemUI ui = new StregsystemCLI(stregsystem);
+        //StregsystemController sc = new StregsystemController(ui, stregsystem);
 
-	      //ui.Start();
-        Console.ReadKey();
+        //ui.Start();
+        Console.WriteLine("Yes");
+        Console.ReadLine();
       } catch(FileLoadException) {
         Console.WriteLine("Kunne ikke hente indhold.");
       }

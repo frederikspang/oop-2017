@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Eksamensopgave2017 {
   class Stregsystem : IStregsystem {
@@ -16,11 +17,11 @@ namespace Eksamensopgave2017 {
     }
 
     public Product GetProductByID(int productID) {
-      throw new NotImplementedException();
+      return Product.Find(productID);
     }
 
     public IEnumerable<Transaction> GetTransactions(User user, int count) {
-      throw new NotImplementedException();
+      return Transaction.All.Where(t => t.User == user).OrderBy(t => t.Date).Take(count);
     }
 
     public User GetUser(Func<User, bool> predicate) {
@@ -31,8 +32,5 @@ namespace Eksamensopgave2017 {
       throw new NotImplementedException();
     }
 
-    IEnumerable<Transaction> IStregsystem.GetTransactions(User user, int count) {
-      throw new NotImplementedException();
-    }
   }
 }

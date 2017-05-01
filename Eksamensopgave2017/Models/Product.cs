@@ -2,7 +2,7 @@
 namespace Eksamensopgave2017 {
   public class Product : BaseModel<Product> {
     public bool CanBeBoughtOnCredit { get; set; }
-    public bool Active { get; set; }
+    public bool _active { get; set; }
     public double Price { get; set; }
     public string Name { get; set; }
     public int ProductID { get; set; }
@@ -17,9 +17,13 @@ namespace Eksamensopgave2017 {
       ProductID = id;
       Name = name;
       Price = price;
-      Active = active;
+      _active = active;
       CanBeBoughtOnCredit = canCredit;
 
+    }
+
+    public bool Active(){
+      return _active;
     }
 
     public string ToPrettyString() {

@@ -57,6 +57,7 @@
     <Compile Include="Transaction\Transaction.cs" />
     <Compile Include="Transaction\PurchaseTransaction.cs" />
     <Compile Include="Transaction\InsertCashTransaction.cs" />
+    <Compile Include="Exceptions\InsufficientCreditsException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

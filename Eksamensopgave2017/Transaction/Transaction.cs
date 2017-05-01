@@ -1,6 +1,6 @@
 ﻿using System;
 namespace Eksamensopgave2017 {
-  public abstract class Transaction {
+  public abstract class Transaction : BaseModel<Transaction> {
     public static int NextID;
     public int Id {
       get;
