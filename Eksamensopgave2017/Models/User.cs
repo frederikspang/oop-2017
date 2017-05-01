@@ -13,16 +13,16 @@ namespace Eksamensopgave2017 {
     public string Firstname { get; set; }
     public string Lastname { get; set; }
 
-    public double Balance { get; set; }
+    public decimal Balance { get; set; }
    
+    // Used for user creation. No balance, and auto generated ID
     public User(string firstname, string lastname, string email) {
       if (ValidEmail(email))
         Email = email;
       else
         throw new ArgumentException("Email is not valid");
 
-      while (!ValidUsername(Username))
-        Username = GenerateUsername(lastname, Id);
+      Username = GenerateUsername(email);
 
       if (firstname == null || lastname == null)
         throw new ArgumentNullException("User firstname and/or lastname cannot be null");
@@ -31,34 +31,28 @@ namespace Eksamensopgave2017 {
       Firstname = firstname;
       Lastname = lastname;
       Balance = 0;
-
-      All.Add(this);
     }
 
-    public User(string firstname, string lastname, string email, int balance) {
+    // Used for loading.
+    public User(int ID, string firstname, string lastname, string email, string username, decimal balance) {
       if (ValidEmail(email))
-        Email = email;
+        Email = email.Replace("\"", "");
       else
         throw new ArgumentException("Email is not valid");
 
-      if (ValidUsername(GenerateUsername(lastname, Id)))
-        Username = GenerateUsername(lastname, Id);
-      else
-        throw new ArgumentException("Invalid username Generated");
+      Username = username;
 
       if (firstname == null || lastname == null)
         throw new ArgumentNullException("User firstname and/or lastname cannot be null");
 
-      Id = All.Count();
-      Firstname = firstname;
-      Lastname = lastname;
+      Id = ID;
+      Firstname = firstname.Replace("\"", "");
+      Lastname = lastname.Replace("\"", "");
       Balance = balance;
-
-      All.Add(this); // Add to static list of users.
     }
 
     public override string ToString() {
-      return Firstname + " " + Lastname + " " + Email;
+      return $"{Firstname} {Lastname} <{Email}>";
     }
 
     public int CompareTo(Object obj) {
@@ -84,26 +78,12 @@ namespace Eksamensopgave2017 {
       return Id.GetHashCode(); // Use the hasfor the unique ID. Could maybe use ID since it's an Int32?
     }
 
-    string GenerateUsername(string name, int num) {
-      return name.ToLower() + num.ToString();
+    string GenerateUsername(string email) {
+      return email.Split('@')[0];
     }
 
     bool ValidEmail(string mail) {
-      bool local = false, domain = false;
-      string[] split = mail.Split('@');
-      if (split.Length != 2)
-        return false;
-
-      //Local check
-      Regex check = new Regex("[a-zA-Z0-9-_.]");
-      local = check.IsMatch(split[0]);
-
-      //Domain check
-      check = new Regex("[a-zA-Z0-9-._]");
-      domain = check.IsMatch(split[1]) && split[1].Contains('.')
-          && !CharEquals(split[1][0], '.', '-', '_') && !CharEquals(split[1][split[1].Length - 1], '.', '-', '_');
-
-      return (local && domain);
+      return true;
     }
 
     bool CharEquals(char compareTo, params char[] chars) {

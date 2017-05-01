@@ -19,7 +19,6 @@ namespace Eksamensopgave2017 {
       Price = price;
       _active = active;
       CanBeBoughtOnCredit = canCredit;
-
     }
 
     public bool Active(){
