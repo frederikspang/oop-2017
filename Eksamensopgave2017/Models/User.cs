@@ -35,12 +35,12 @@ namespace Eksamensopgave2017 {
 
     // Used for loading.
     public User(int ID, string firstname, string lastname, string email, string username, decimal balance) {
-      if (ValidEmail(email))
+      if (ValidEmail(email.Replace("\"", "")))
         Email = email.Replace("\"", "");
       else
         throw new ArgumentException("Email is not valid");
 
-      Username = username;
+      Username = username.Replace("\"", "");
 
       if (firstname == null || lastname == null)
         throw new ArgumentNullException("User firstname and/or lastname cannot be null");
@@ -83,7 +83,9 @@ namespace Eksamensopgave2017 {
     }
 
     bool ValidEmail(string mail) {
-      return true;
+      Regex check = new Regex("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
+
+      return check.IsMatch(mail);
     }
 
     bool CharEquals(char compareTo, params char[] chars) {
@@ -93,6 +95,8 @@ namespace Eksamensopgave2017 {
       }
       return false;
     }
+
+    public string Name() => $"{Firstname} {Lastname}";
 
     bool ValidUsername(string username) {
       Regex check = new Regex("[a-z0-9_]");

@@ -8,7 +8,6 @@ namespace Eksamensopgave2017 {
     PurchaseTransaction BuyProduct(User user, Product product);
     Product GetProductByID(int productID);
     IEnumerable<Transaction> GetTransactions(User user, int count);
-    User GetUser(Func<User, bool> predicate);
     User GetUserByUsername(string username);
     //event UserBalanceNotification UserBalanceWarning;
   }

@@ -5,8 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Eksamensopgave2017 {
-  class StregsystemCLI : IStregsystemUI {
+  public class StregsystemCLI : IStregsystemUI {
     IStregsystem _sys;
+    CommandParser Parser;
 
     Dictionary<string, Action<dynamic, dynamic>> _commands = new Dictionary<string, Action<dynamic, dynamic>>();
 
@@ -16,14 +17,7 @@ namespace Eksamensopgave2017 {
 
     public StregsystemCLI(IStregsystem sy) {
       _sys = sy;
-
-      _commands.Add(":q", (x, y) => { Close(); });
-      _commands.Add(":quit", (x, y) => { Close(); });
-      //_commands.Add(":activate", (x, y) => { Sys.ChangeProductActive(x, true); DisplayActivation(x, true); });
-      //_commands.Add(":deactivate", (x, y) => { Sys.ChangeProductActive(x, false); DisplayActivation(x, false); });
-      //_commands.Add(":crediton", (x, y) => { Sys.ChangeProductCredit(x, true); DisplayCreditChange(x, false); });
-      //_commands.Add(":creditoff", (x, y) => { Sys.ChangeProductCredit(x, false); DisplayCreditChange(x, false); });
-      //_commands.Add(":addcredits", (x, y) => { Sys.AddCreditsToUser(Sys.GetUser(x), y); DisplayAddedCreditsToUser(Sys.GetUser(x), y); });
+      Parser = new CommandParser(this, (Stregsystem)sy);
     }
 
     public void DisplayUserNotFound(string username) {
@@ -31,11 +25,11 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayProductNotFound(string id) {
-      Console.WriteLine("Intet produkt med id [" + id + "] found");
+      Console.WriteLine("No product with id [" + id + "] found");
     }
 
     public void DisplayProductInactive() {
-      Console.WriteLine("Attempted to purchase inacctive product");
+      Console.WriteLine("Attempted to purchase inactive product");
     }
 
     public void DisplayUserInfo(User u) {
@@ -53,13 +47,13 @@ namespace Eksamensopgave2017 {
     }
 
     private void PrintUserStats(User u) {
-      Console.WriteLine("*------------------------------");
-      Console.WriteLine("* ID: " + u.Id);
+      Console.WriteLine("*----------------------------------");
+      Console.WriteLine("* ID:       " + u.Id);
       Console.WriteLine("* Username: " + u.Username);
-      Console.WriteLine("* Name: " + u.Firstname + " " + u.Lastname);
-      Console.WriteLine("* E-mail: " + u.Email);
-      Console.WriteLine("* Balance: " + u.Balance);
-      Console.WriteLine("*------------------------------");
+      Console.WriteLine("* Name:     " + u.Name());
+      Console.WriteLine("* E-mail:   " + u.Email);
+      Console.WriteLine("* Balance:  " + u.Balance);
+      Console.WriteLine("*----------------------------------");
     }
 
     public void DisplayTooManyArgumentsError(string args) {
@@ -68,6 +62,7 @@ namespace Eksamensopgave2017 {
 
     public void DisplayAdminCommandNotFoundMessage(string args) {
       Console.WriteLine("[" + args + "] is not a valid admin commando");
+      Console.ReadKey();
     }
 
     public void DisplayUserBuysProduct(PurchaseTransaction transaction) {
@@ -151,11 +146,21 @@ namespace Eksamensopgave2017 {
     }
 
     public void Start() {
-      Console.Write("Enter\n> ");
+      DisplayReadyForCommand();
       var input = Console.ReadLine();
 
-      if(input[0] == ':') {
-        _commands[input].Invoke('w', 'y');
+      if (input.Length > 0) {
+        if (input[0] == ':' || input[0] == '?') {
+          Parser.ParseCommand(input);
+        } else {
+          var lookup = User.FindBy("Username", input);
+          if (lookup != null) {
+            DisplayUserInfo(lookup);
+          } else {
+            DisplayUserNotFound(input);
+          }
+          Console.ReadKey();
+        }
       }
       Start();
     }

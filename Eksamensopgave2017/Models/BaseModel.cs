@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Reflection;
+using System.Collections.Generic;
 using System;
+using System.Runtime.CompilerServices;
+using System.Linq;
+using System.Diagnostics;
 
 namespace Eksamensopgave2017 {
   public abstract class BaseModel<T> where T : BaseModel<T> {
@@ -18,7 +22,11 @@ namespace Eksamensopgave2017 {
     }
 
     public static T Find(int id) {
-      return All.Find((obj) => obj.Id == id );
+      return _all.Find(obj => (obj.Id == id) );
+    }
+
+    public static T FindBy(string field, string val) {
+      return _all.Find(obj => obj.GetType().GetProperty(field).GetValue(obj, null).Equals(val));
     }
 
     protected BaseModel() {
