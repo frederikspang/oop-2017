@@ -3,7 +3,8 @@ namespace Eksamensopgave2017 {
   public class BuyTransaction : Transaction {
     public Product Product { get; set; }
 
-    public BuyTransaction() {
+    public BuyTransaction(Product product) {
+      Product = product;
     }
   }
 }

@@ -59,6 +59,7 @@
     <Compile Include="Exceptions\InsufficientCreditsException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Controllers\StregsystemController.cs" />
+    <Compile Include="Exceptions\UserNotFoundException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

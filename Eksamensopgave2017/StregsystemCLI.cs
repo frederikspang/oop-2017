@@ -44,13 +44,13 @@ namespace Eksamensopgave2017 {
     }
 
     private void PrintUserStats(User u) {
-      Console.WriteLine("*----------------------------------");
-      Console.WriteLine("* ID:       " + u.Id);
-      Console.WriteLine("* Username: " + u.Username);
-      Console.WriteLine("* Name:     " + u.Name());
-      Console.WriteLine("* E-mail:   " + u.Email);
-      Console.WriteLine("* Balance:  " + u.Balance);
-      Console.WriteLine("*----------------------------------");
+      Console.WriteLine("/----------------------------------");
+      Console.WriteLine("| ID:       " + u.Id);
+      Console.WriteLine("| Username: " + u.Username);
+      Console.WriteLine("| Name:     " + u.Name());
+      Console.WriteLine("| E-mail:   " + u.Email);
+      Console.WriteLine("| Balance:  " + u.Balance);
+      Console.WriteLine("\\----------------------------------");
     }
 
     public void DisplayTooManyArgumentsError(string args) {
@@ -63,7 +63,7 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayUserBuysProduct(BuyTransaction transaction) {
-      Console.WriteLine(transaction.ToString());
+      Console.WriteLine(transaction);
       if (transaction.User.Balance < 50)
         DisplayBalanceBelowFifty();
     }

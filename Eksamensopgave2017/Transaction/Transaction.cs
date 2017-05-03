@@ -4,13 +4,23 @@ using System.Diagnostics;
 namespace Eksamensopgave2017 {
   public abstract class Transaction : BaseModel<Transaction> {
     public static int NextID = 1;
-    public User User { get; set; }
+    User _user;
+    bool _booked;
+    
+    public User User {
+      get { return _user; }
+      set { if (!_booked) _user = value; }
+    }
+
     public DateTime Date { get; set; }
     public int Amount { get; private set; }
 
     public bool Execute() {
       Debug.WriteLine("KØB: xxxx");
-      throw new NotImplementedException();
+      Date = DateTime.Now;
+      _booked = true;
+
+      return true;
     }
 
     override public string ToString() {

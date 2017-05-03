@@ -4,6 +4,4 @@
 // Project-level suppressions either have no target or are given 
 // a specific target and scoped to a namespace, type, member, etc.
 
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0026:Possible unassigned object created by 'new'", Justification = "<Pending>", Scope = "member", Target = "~M:Eksamensopgave2017.Program.LoadProducts~System.Boolean")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Potential Code Quality Issues", "RECS0026:Possible unassigned object created by 'new'", Justification = "<Pending>", Scope = "member", Target = "~M:Eksamensopgave2017.Program.LoadUsers~System.Boolean")]
 
