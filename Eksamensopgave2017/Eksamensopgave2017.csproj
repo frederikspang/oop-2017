@@ -54,11 +54,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Transaction\Transaction.cs" />
-    <Compile Include="Transaction\PurchaseTransaction.cs" />
+    <Compile Include="Transaction\BuyTransaction.cs" />
     <Compile Include="Transaction\InsertCashTransaction.cs" />
     <Compile Include="Exceptions\InsufficientCreditsException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="CommandParser.cs" />
+    <Compile Include="Controllers\StregsystemController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -75,6 +75,7 @@
     <Folder Include="Transaction\" />
     <Folder Include="Data\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

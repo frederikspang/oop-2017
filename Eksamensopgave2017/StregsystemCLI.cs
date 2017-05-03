@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 namespace Eksamensopgave2017 {
   public class StregsystemCLI : IStregsystemUI {
     IStregsystem _sys;
-    CommandParser Parser;
-
-    Dictionary<string, Action<dynamic, dynamic>> _commands = new Dictionary<string, Action<dynamic, dynamic>>();
+    StregsystemController Parser;
 
     public IStregsystem Sys {
       get { return _sys; }
@@ -17,7 +15,7 @@ namespace Eksamensopgave2017 {
 
     public StregsystemCLI(IStregsystem sy) {
       _sys = sy;
-      Parser = new CommandParser(this, (Stregsystem)sy);
+      Parser = new StregsystemController(this, (Stregsystem)sy);
     }
 
     public void DisplayUserNotFound(string username) {
@@ -33,7 +31,6 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayUserInfo(User u) {
-
       PrintUserStats(u);
       if (u.Balance < 50)
         DisplayBalanceBelowFifty();
@@ -65,14 +62,16 @@ namespace Eksamensopgave2017 {
       Console.ReadKey();
     }
 
-    public void DisplayUserBuysProduct(PurchaseTransaction transaction) {
+    public void DisplayUserBuysProduct(BuyTransaction transaction) {
       Console.WriteLine(transaction.ToString());
       if (transaction.User.Balance < 50)
         DisplayBalanceBelowFifty();
     }
 
-    public void DisplayUserBuysProduct(int count, Product p, User u) {
-      Console.WriteLine("[" + u.Username + "] Bought " + count.ToString() + "x " + p.Name + " for " + (p.Price * (double)count).ToString() + "kr");
+    public void DisplayUserBuysProduct(int count, BuyTransaction transaction) {
+      User u = transaction.User;
+      Product p = transaction.Product;
+      Console.WriteLine("[" + u.Username + "] Bought " + count.ToString() + "x " + p.Name + " for " + (p.Price * count).ToString() + "kr");
       if (u.Balance < 50)
         DisplayBalanceBelowFifty();
     }
@@ -98,6 +97,20 @@ namespace Eksamensopgave2017 {
       Console.Clear();
       DisplayActiveProducts();
       Console.Write("\n>");
+      var input = Console.ReadLine();
+
+      if (input.Length > 0) {
+        if (input[0] == ':' || input[0] == '?') {
+          Parser.ParseCommand(input);
+        } else {
+          var lookup = Sys.GetUserByUsername(input);
+          if (lookup != null) {
+            DisplayUserInfo(lookup);
+          } else {
+            DisplayUserNotFound(input);
+          }
+        }
+      }
     }
 
     public void DisplayAddedCreditsToUser(User u, double amount) {
@@ -143,26 +156,6 @@ namespace Eksamensopgave2017 {
 
     public void DisplayCreditChange(int id, bool val) {
       Console.WriteLine("Product with id [" + id + "] " + (val ? "may" : "cannot") + " be bought on credit now");
-    }
-
-    public void Start() {
-      DisplayReadyForCommand();
-      var input = Console.ReadLine();
-
-      if (input.Length > 0) {
-        if (input[0] == ':' || input[0] == '?') {
-          Parser.ParseCommand(input);
-        } else {
-          var lookup = User.FindBy("Username", input);
-          if (lookup != null) {
-            DisplayUserInfo(lookup);
-          } else {
-            DisplayUserNotFound(input);
-          }
-          Console.ReadKey();
-        }
-      }
-      Start();
     }
   }
 }

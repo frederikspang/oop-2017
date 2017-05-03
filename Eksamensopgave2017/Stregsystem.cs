@@ -12,7 +12,7 @@ namespace Eksamensopgave2017 {
       throw new NotImplementedException();
     }
 
-    public PurchaseTransaction BuyProduct(User user, Product product) {
+    public BuyTransaction BuyProduct(User user, Product product) {
       throw new NotImplementedException();
     }
 
