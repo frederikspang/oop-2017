@@ -103,7 +103,7 @@ namespace Eksamensopgave2017 {
         if (input[0] == ':' || input[0] == '?') {
           Parser.ParseCommand(input);
         } else {
-          var lookup = Sys.GetUserByUsername(input);
+          var lookup = User.FindBy("Username", input);
           if (lookup != null) {
             DisplayUserInfo(lookup);
           } else {
@@ -124,7 +124,7 @@ namespace Eksamensopgave2017 {
     private void DisplayActiveProducts() {
       Console.Write(string.Format("{0, -4}|{1, 7} - {2}", "ID", "Price", "Product"));
       DisplayHelpOptions();
-      foreach (Product p in Product.All.Where(p => p.Active() )) {
+      foreach (Product p in Sys.ActiveProducts) {
         Console.WriteLine(p);
       }
     }
@@ -156,6 +156,14 @@ namespace Eksamensopgave2017 {
 
     public void DisplayCreditChange(int id, bool val) {
       Console.WriteLine("Product with id [" + id + "] " + (val ? "may" : "cannot") + " be bought on credit now");
+    }
+
+    public void DisplayInsufficientCash(User user, Product product) {
+      throw new NotImplementedException();
+    }
+
+    public void Start() {
+      Parser.Start();
     }
   }
 }

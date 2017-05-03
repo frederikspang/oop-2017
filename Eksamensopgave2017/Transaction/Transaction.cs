@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Diagnostics;
 namespace Eksamensopgave2017 {
   public abstract class Transaction : BaseModel<Transaction> {
     public static int NextID = 1;
@@ -7,7 +9,7 @@ namespace Eksamensopgave2017 {
     public int Amount { get; private set; }
 
     public bool Execute() {
-      Console.WriteLine("KØB: xxxx");
+      Debug.WriteLine("KØB: xxxx");
       throw new NotImplementedException();
     }
 
