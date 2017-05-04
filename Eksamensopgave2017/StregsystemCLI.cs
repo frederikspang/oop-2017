@@ -13,11 +13,11 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayUserNotFound(string username) {
-      Console.WriteLine("No user with username [" + username + "] found");
+      Console.WriteLine($"No user with username [{username}] found");
     }
 
     public void DisplayProductNotFound(string id) {
-      Console.WriteLine("No product with id [" + id + "] found");
+      Console.WriteLine($"No product with id [{id}] found");
     }
 
     public void DisplayProductInactive(Product p) {
@@ -33,7 +33,7 @@ namespace Eksamensopgave2017 {
       var t = u.Transactions;
       Console.WriteLine("Last transactions:");
       foreach (var tran in t)
-        Console.WriteLine((++i).ToString() + ". " + tran.ToString());
+        Console.WriteLine((++i).ToString() + ". " + tran);
 
     }
 
