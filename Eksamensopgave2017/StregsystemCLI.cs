@@ -67,17 +67,16 @@ namespace Eksamensopgave2017 {
         DisplayBalanceBelowFifty();
     }
 
-    public void Close(int exit_code = 0) {
-      Console.WriteLine("Shutting down");
-      _shutting_down = exit_code;
-    }
-
     public void DisplayInsufficientCash(User u) {
-      Console.WriteLine("[" + u.Username + "] Not enough credit to purchase product");
+      Console.WriteLine("[" + u.Username + "] Not enough credit to buy product");
     }
 
     public void DisplayInsufficientCash(User u, int count) {
-      Console.WriteLine("[" + u.Username + "] Not enough credit to purchase " + count.ToString() + "x products");
+      Console.WriteLine("[" + u.Username + "] Not enough credit to buy " + count.ToString() + "x products");
+    }
+
+    public void DisplayInsufficientCash(User u, Product p) {
+      Console.WriteLine("[" + u.Username + "] Not enough credit to buy " + p.Name);
     }
 
     public void DisplayGeneralError(string msg) {
@@ -143,10 +142,6 @@ namespace Eksamensopgave2017 {
       Console.WriteLine("Product with id [" + id + "] " + (val ? "may" : "cannot") + " be bought on credit now");
     }
 
-    public void DisplayInsufficientCash(User user, Product product) {
-      throw new NotImplementedException();
-    }
-
     public void Start() {
       while (_shutting_down == -1) {
         DisplayReadyForCommand();
@@ -154,6 +149,11 @@ namespace Eksamensopgave2017 {
       }
 
       Environment.Exit(_shutting_down);
+    }
+
+    public void Close(int exit_code = 0) {
+      Console.WriteLine("Shutting down");
+      _shutting_down = exit_code;
     }
   }
 }

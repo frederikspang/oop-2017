@@ -75,6 +75,7 @@ namespace Eksamensopgave2017 {
     #endregion Generators and Validators
 
     public void AddCredit(int credit) {
+      //TODO: Add Transaction as well. Maybe move logic to Execute on InsertCashTransaction
       Balance += credit / 100;
     }
 
