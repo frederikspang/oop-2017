@@ -4,12 +4,14 @@ using System.IO;
 namespace Eksamensopgave2017 {
   public static class StregsystemLoader {
 
+    public static char sep = Path.DirectorySeparatorChar; // Unix Compatibity
+
     public static bool Load(){
       return LoadProducts() && LoadUsers();
     }
 
     static bool LoadProducts() {
-      foreach (string line in File.ReadAllLines((Directory.GetCurrentDirectory() + "/Data/products.csv"))) {
+      foreach (string line in File.ReadAllLines((Directory.GetCurrentDirectory() + $"{sep}Data{sep}products.csv"))) {
         string[] split = line.Split(';');
         if (split == null || split[0] == "id") {
           continue;
@@ -43,7 +45,7 @@ namespace Eksamensopgave2017 {
     }
 
     static bool LoadUsers() {
-      foreach (string line in File.ReadAllLines((Directory.GetCurrentDirectory() + "/Data/users.csv"))) {
+      foreach (string line in File.ReadAllLines((Directory.GetCurrentDirectory() + $"{sep}Data{sep}users.csv"))) {
         string[] split = line.Split(';');
 
         if (split[0] == "id")
