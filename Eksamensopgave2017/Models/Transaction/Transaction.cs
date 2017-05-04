@@ -24,7 +24,7 @@ namespace Eksamensopgave2017 {
       return true;
     }
 
-    override public string ToString() {
+    public override string ToString() {
       return $"[{Date.ToString()}] Transaktion {Id}, User{User.Id}, {Amount} kr.";
     }
   }

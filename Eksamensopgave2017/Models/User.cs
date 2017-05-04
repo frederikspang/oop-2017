@@ -103,8 +103,6 @@ namespace Eksamensopgave2017 {
     }
     #endregion
 
-    public override int GetHashCode() {
-      return Id.GetHashCode(); // Use the hasfor the unique ID. Could maybe use ID since it's an Int32?
-    }
+    public override int GetHashCode() => Id.GetHashCode(); // Use the hasfor the unique ID. Could maybe use ID since it's an Int32?
   }
 }
