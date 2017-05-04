@@ -4,10 +4,10 @@ namespace Eksamensopgave2017 {
   public class Product : BaseModel<Product> {
     public bool CanBeBoughtOnCredit { get; set; }
     public bool _active { get; set; }
-    public double Price { get; set; }
+    public decimal Price { get; set; }
     public string Name { get; set; }
 
-    public Product(int id, string name, double price, bool active, bool canCredit) {
+    public Product(int id, string name, decimal price, bool active, bool canCredit) {
       if (id < 1)
         throw new ArgumentOutOfRangeException(nameof(id), "Product ID must be higher than 0!");
 

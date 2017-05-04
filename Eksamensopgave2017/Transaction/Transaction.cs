@@ -6,17 +6,18 @@ namespace Eksamensopgave2017 {
     public static int NextID = 1;
     User _user;
     bool _booked;
-    
+
     public User User {
       get { return _user; }
       set { if (!_booked) _user = value; }
     }
 
     public DateTime Date { get; set; }
-    public int Amount { get; private set; }
+    public decimal Amount { get; protected set; }
+
+    public bool Booked => _booked;
 
     public bool Execute() {
-      Debug.WriteLine("KØB: xxxx");
       Date = DateTime.Now;
       _booked = true;
 

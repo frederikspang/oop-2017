@@ -1,26 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using Eksamensopgave2017.Exceptions;
+using System.Linq.Expressions;
 
 namespace Eksamensopgave2017 {
   public class StregsystemController {
-
-    Stregsystem _sys;
-
     public StregsystemCLI UI {
       get;
       set;
     }
 
-    public Stregsystem Sys {
-      get { return _sys; }
-      set { _sys = value; }
-    }
     public Dictionary<string, Action<dynamic, dynamic>> _adminCommands;
 
-    public StregsystemController(IStregsystemUI ui, Stregsystem sys) {
+    public StregsystemController(IStregsystemUI ui) {
       UI = (StregsystemCLI)ui;
-      _sys = sys;
       _adminCommands = new Dictionary<string, Action<dynamic, dynamic>> {
         { "?", (x, y) => UI.DisplayHelp() },
 
@@ -57,7 +50,7 @@ namespace Eksamensopgave2017 {
         {
           ":addcredits",
           (x, y) => {
-            Sys.AddCreditsToAccount(User.FindBy("Username", x), y);
+            User.FindBy("Username", x).AddCredit(y);
             UI.DisplayAddedCreditsToUser(User.FindBy("Username", x), y);
           }
         }
@@ -78,12 +71,15 @@ namespace Eksamensopgave2017 {
     }
 
     public void ParsePurchase(string command) {
-      string[] split = command.Split(' ');
+      string[] split = command.Split(new[] { ' ' });
       User u = User.FindBy("Username", split[0]);
-      if (u == null)
-        throw new UserNotFoundException(split[0]);
       try {
-        if (split.Length == 2) {
+        if (u == null)
+          throw new UserNotFoundException(split[0]);
+        
+        if (split.Length == 1) {
+          UI.DisplayUserInfo(u);
+        } else if (split.Length == 2) {
           Product p = Product.Find(int.Parse(split[1]));
           BuyTransaction purchase = new BuyTransaction(user: u, product: p);
           purchase.Execute();
@@ -95,12 +91,14 @@ namespace Eksamensopgave2017 {
             BuyTransaction purchase = new BuyTransaction(user: u, product: p);
             purchase.Execute();
           }
-          UI.DisplayUserBuysProduct(count, p);
+          UI.DisplayUserBuysProduct(product: p, user: u, count: count);
         }
       } catch (InsufficientCreditsException e) {
         UI.DisplayInsufficientCash(e.User);
       } catch (UserNotFoundException e) {
         UI.DisplayUserNotFound(e.Username);
+      } catch (ProductInactiveException e) {
+        UI.DisplayProductInactive(e.Product);
       }
     }
   }

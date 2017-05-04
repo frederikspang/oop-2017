@@ -7,15 +7,24 @@ using System.Text.RegularExpressions;
 
 namespace Eksamensopgave2017 {
   public class User : BaseModel<User>, IComparable {
+
+    #region Properties
     public string Email { get; set; }
     public string Username { get; set; }
 
     public string Firstname { get; set; }
     public string Lastname { get; set; }
 
+    public string Name => $"{Firstname} {Lastname}";
+
     public decimal Balance { get; set; }
-   
-    // Used for user creation. No balance, and auto generated ID
+
+    public List<Transaction> Transactions => Transaction.All.Where(t => t.User == this).ToList();
+
+    #endregion Properties
+
+    #region Constructors
+    // Used for user creation. No balance or Username, and auto generated ID
     public User(string firstname, string lastname, string email) {
       if (ValidEmail(email))
         Email = email;
@@ -50,7 +59,26 @@ namespace Eksamensopgave2017 {
       Lastname = lastname.Replace("\"", "");
       Balance = balance;
     }
+    #endregion Constructors
 
+    #region Generators and Validators
+
+    string GenerateUsername(string email) {
+      return email.Split('@')[0];
+    }
+
+    bool ValidEmail(string mail) {
+      Regex check = new Regex("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
+
+      return check.IsMatch(mail);
+    }
+    #endregion Generators and Validators
+
+    public void AddCredit(int credit) {
+      Balance += credit / 100;
+    }
+
+    #region Interfaces
     public override string ToString() {
       return $"{Firstname} {Lastname} <{Email}>";
     }
@@ -70,39 +98,12 @@ namespace Eksamensopgave2017 {
     public override bool Equals(object obj) {
       if (obj == null || !(obj is User))
         return false;
-      
       return Username == ((User)obj).Username;
     }
+    #endregion
 
     public override int GetHashCode() {
       return Id.GetHashCode(); // Use the hasfor the unique ID. Could maybe use ID since it's an Int32?
     }
-
-    string GenerateUsername(string email) {
-      return email.Split('@')[0];
-    }
-
-    bool ValidEmail(string mail) {
-      Regex check = new Regex("^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$");
-
-      return check.IsMatch(mail);
-    }
-
-    bool CharEquals(char compareTo, params char[] chars) {
-      foreach (char ch in chars) {
-        if (ch == compareTo)
-          return true;
-      }
-      return false;
-    }
-
-    public string Name() => $"{Firstname} {Lastname}";
-
-    bool ValidUsername(string username) {
-      Regex check = new Regex("[a-z0-9_]");
-
-      return !string.IsNullOrWhiteSpace(username) && check.IsMatch(username);
-    }
-
   }
 }

@@ -1,19 +1,15 @@
 ﻿using System;
+using System.Linq;
 
 namespace Eksamensopgave2017 {
   public class StregsystemCLI : IStregsystemUI {
-    IStregsystem _sys;
     StregsystemController Parser;
 
     int _shutting_down = -1;
 
-    public IStregsystem Sys {
-      get { return _sys; }
-    }
 
-    public StregsystemCLI(IStregsystem sy) {
-      _sys = sy;
-      Parser = new StregsystemController(this, (Stregsystem)sy);
+    public StregsystemCLI() {
+      Parser = new StregsystemController(this);
     }
 
     public void DisplayUserNotFound(string username) {
@@ -24,8 +20,8 @@ namespace Eksamensopgave2017 {
       Console.WriteLine("No product with id [" + id + "] found");
     }
 
-    public void DisplayProductInactive() {
-      Console.WriteLine("Attempted to purchase inactive product");
+    public void DisplayProductInactive(Product p) {
+      Console.WriteLine($"{p.Name} is inactive");
     }
 
     public void DisplayUserInfo(User u) {
@@ -34,7 +30,7 @@ namespace Eksamensopgave2017 {
         DisplayBalanceBelowFifty();
 
       int i = 0;
-      var t = Sys.GetTransactions(u, 20);
+      var t = u.Transactions;
       Console.WriteLine("Last transactions:");
       foreach (var tran in t)
         Console.WriteLine((++i).ToString() + ". " + tran.ToString());
@@ -45,7 +41,7 @@ namespace Eksamensopgave2017 {
       Console.WriteLine("/----------------------------------");
       Console.WriteLine("| ID:       " + u.Id);
       Console.WriteLine("| Username: " + u.Username);
-      Console.WriteLine("| Name:     " + u.Name());
+      Console.WriteLine("| Name:     " + u.Name);
       Console.WriteLine("| E-mail:   " + u.Email);
       Console.WriteLine("| Balance:  " + u.Balance);
       Console.WriteLine("\\----------------------------------");
@@ -57,7 +53,6 @@ namespace Eksamensopgave2017 {
 
     public void DisplayAdminCommandNotFoundMessage(string args) {
       Console.WriteLine("[" + args + "] is not a valid admin commando");
-      Console.ReadKey();
     }
 
     public void DisplayUserBuysProduct(BuyTransaction transaction) {
@@ -66,11 +61,9 @@ namespace Eksamensopgave2017 {
         DisplayBalanceBelowFifty();
     }
 
-    public void DisplayUserBuysProduct(int count, BuyTransaction transaction) {
-      User u = transaction.User;
-      Product p = transaction.Product;
-      Console.WriteLine("[" + u.Username + "] Bought " + count.ToString() + "x " + p.Name + " for " + (p.Price * count).ToString() + "kr");
-      if (u.Balance < 50)
+    public void DisplayUserBuysProduct(int count, Product product, User user) {
+      Console.WriteLine("[" + user.Username + "] Bought " + count.ToString() + "x " + product.Name + " for " + (product.Price * count).ToString() + "kr");
+      if (user.Balance < 50)
         DisplayBalanceBelowFifty();
     }
 
@@ -98,16 +91,9 @@ namespace Eksamensopgave2017 {
       var input = Console.ReadLine();
 
       if (input.Length > 0) {
-        if (input[0] == ':' || input[0] == '?') {
-          Parser.ParseCommand(input);
-        } else {
-          var lookup = User.FindBy("Username", input);
-          if (lookup != null) {
-            DisplayUserInfo(lookup);
-          } else {
-            DisplayUserNotFound(input);
-          }
-        }
+        Parser.ParseCommand(input);
+      } else {
+        DisplayGeneralError("Error");
       }
     }
 
@@ -122,13 +108,14 @@ namespace Eksamensopgave2017 {
     private void DisplayActiveProducts() {
       Console.Write(string.Format("{0, -4}|{1, 7} - {2}", "ID", "Price", "Product"));
       DisplayHelpOptions();
-      foreach (Product p in Sys.ActiveProducts) {
-        Console.WriteLine(p);
+      foreach (Product p in Product.All.Where(p => p.Active())) {
+        Console.WriteLine(String.Format("{0, -4}|{1, 7:F} - {2}", p.Id, p.Price, p.Name));
       }
     }
 
     public void DisplayEnterToCont() {
       Console.WriteLine("\nPress enter to return to menu");
+      Console.ReadKey();
     }
 
     public void DisplayTransactionNotFound(string username) {
@@ -161,8 +148,11 @@ namespace Eksamensopgave2017 {
     }
 
     public void Start() {
-      while (_shutting_down == -1)
+      while (_shutting_down == -1) {
         DisplayReadyForCommand();
+        DisplayEnterToCont();
+      }
+
       Environment.Exit(_shutting_down);
     }
   }

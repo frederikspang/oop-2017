@@ -4,11 +4,7 @@
     public UserNotFoundException() {
     }
 
-    public UserNotFoundException(string username) : base(username) {
-      Username = username;
-    }
-
-    public UserNotFoundException(string username, System.Exception inner) : base(username, inner) {
+    public UserNotFoundException(string username) {
       Username = username;
     }
   }

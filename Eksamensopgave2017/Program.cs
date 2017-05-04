@@ -3,18 +3,17 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace Eksamensopgave2017 {
   class Program {
     static void Main(string[] args) {
       try {
-        IStregsystem stregsystem = new Stregsystem();
-        IStregsystemUI ui = new StregsystemCLI(stregsystem);
-
-        ui.Start();
-
-        foreach (User prod in User.All) {
-          Debug.WriteLine(prod);
+        if (StregsystemLoader.Load()) {
+          IStregsystemUI ui = new StregsystemCLI();
+          ui.Start();  
+        } else {
+          throw new FileLoadException();
         }
       } catch(FileLoadException) {
         Console.WriteLine("Kunne ikke hente indhold.");

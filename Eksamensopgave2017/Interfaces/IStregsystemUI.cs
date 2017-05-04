@@ -6,7 +6,7 @@
     void DisplayTooManyArgumentsError(string command);
     void DisplayAdminCommandNotFoundMessage(string adminCommand);
     void DisplayUserBuysProduct(BuyTransaction transaction);
-    void DisplayUserBuysProduct(int count, BuyTransaction transaction);
+    void DisplayUserBuysProduct(int count, Product product, User user);
     void DisplayInsufficientCash(User user, Product product);
     void DisplayGeneralError(string errorString);
 

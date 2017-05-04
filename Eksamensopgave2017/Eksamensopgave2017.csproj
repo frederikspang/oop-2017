@@ -44,7 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Stregsystem.cs" />
+    <Compile Include="StregsystemLoader.cs" />
     <Compile Include="StregsystemCLI.cs" />
     <Compile Include="UserBalanceNotification.cs" />
     <Compile Include="Models\BaseModel.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Controllers\StregsystemController.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
+    <Compile Include="Exceptions\ProductInactiveException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
