@@ -118,7 +118,7 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayTransactionNotFound(string username) {
-      Console.WriteLine("No transactions found for user [" + username + "]");
+      Console.WriteLine($"No transactions found for user [{username}]");
     }
 
     private void DisplayHelpOptions() {
@@ -135,11 +135,11 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayActivation(int id, bool val) {
-      Console.WriteLine("Product with id [" + id + "] was " + (val ? "activated" : "deactivated"));
+      Console.WriteLine($"Product with id [{id}] was {(val ? "activated" : "deactivated")}");
     }
 
     public void DisplayCreditChange(int id, bool val) {
-      Console.WriteLine("Product with id [" + id + "] " + (val ? "may" : "cannot") + " be bought on credit now");
+      Console.WriteLine($"Product with id [{id}] {(val ? "may" : "cannot")} be bought on credit now");
     }
 
     public void Start() {
