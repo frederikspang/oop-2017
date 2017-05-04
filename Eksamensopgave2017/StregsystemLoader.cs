@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Eksamensopgave2017 {
   public static class StregsystemLoader {
@@ -14,10 +15,28 @@ namespace Eksamensopgave2017 {
           continue;
         }
 
+        // Loaded into Product.All by BaseModel Constructor
+        // Added to global suppresion file.
         if (int.Parse(split[0]) > 0) {
-          // Loaded into Product.All by BaseModel Constructor
-          // Added to global suppresion file.
-          new Product(int.Parse(split[0]), split[1], decimal.Parse(split[2]) / 100, int.Parse(split[3]) != 0, false);
+          DateTime date;
+          if (DateTime.TryParse(split[4], out date)) {
+            new SeasonalProduct(
+              int.Parse(split[0]), 
+              split[1], 
+              decimal.Parse(split[2]) / 100, 
+              int.Parse(split[3]) != 0, 
+              false, 
+              date
+            );
+          } else {
+            new Product(
+              int.Parse(split[0]), 
+              split[1], 
+              decimal.Parse(split[2]) / 100, 
+              int.Parse(split[3]) != 0, 
+              false
+            );
+          }
         }
       };
       return true;

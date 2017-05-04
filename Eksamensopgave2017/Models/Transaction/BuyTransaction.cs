@@ -1,4 +1,5 @@
 ﻿using Eksamensopgave2017.Exceptions;
+
 namespace Eksamensopgave2017 {
   public class BuyTransaction : Transaction {
     public Product Product { get; set; }
@@ -12,7 +13,7 @@ namespace Eksamensopgave2017 {
       if (Product.Active()) {
         if (Product.CanBeBoughtOnCredit || User.Balance >= Product.Price) {
           User.Balance -= Product.Price;
-          Amount = this.Product.Price;
+          Amount = Product.Price;
         } else {
           throw new InsufficientCreditsException(User);
         }

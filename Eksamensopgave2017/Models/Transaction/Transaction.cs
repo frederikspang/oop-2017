@@ -23,6 +23,8 @@ namespace Eksamensopgave2017 {
     }
 
     public bool Execute() {
+      if (_booked) return false;
+
       Date = DateTime.Now;
       _booked = true;
       var dir = Directory.GetCurrentDirectory() + "/Data/Log/";

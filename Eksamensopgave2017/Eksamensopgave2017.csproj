@@ -51,7 +51,6 @@
     <Compile Include="Interfaces\IStregsystem.cs" />
     <Compile Include="Interfaces\IStregsystemUI.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Models\Product.cs" />
     <Compile Include="Exceptions\InsufficientCreditsException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Controllers\StregsystemController.cs" />
@@ -60,6 +59,8 @@
     <Compile Include="Models\Transaction\BuyTransaction.cs" />
     <Compile Include="Models\Transaction\InsertCashTransaction.cs" />
     <Compile Include="Models\Transaction\Transaction.cs" />
+    <Compile Include="Models\Product\Product.cs" />
+    <Compile Include="Models\Product\SeasonalProduct.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -77,6 +78,7 @@
     <Folder Include="Exceptions\" />
     <Folder Include="Controllers\" />
     <Folder Include="Models\Transaction\" />
+    <Folder Include="Models\Product\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
