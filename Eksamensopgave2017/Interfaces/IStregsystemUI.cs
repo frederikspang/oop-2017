@@ -9,6 +9,8 @@
     void DisplayUserBuysProduct(int count, BuyTransaction transaction);
     void DisplayInsufficientCash(User user, Product product);
     void DisplayGeneralError(string errorString);
-    void Close();
+
+    void Start();
+    void Close(int exit_code);
   }
 }

@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Eksamensopgave2017 {
   public class StregsystemCLI : IStregsystemUI {
     IStregsystem _sys;
     StregsystemController Parser;
+
+    int _shutting_down = -1;
 
     public IStregsystem Sys {
       get { return _sys; }
@@ -76,9 +74,9 @@ namespace Eksamensopgave2017 {
         DisplayBalanceBelowFifty();
     }
 
-    public void Close() {
+    public void Close(int exit_code = 0) {
       Console.WriteLine("Shutting down");
-      Environment.Exit(0);
+      _shutting_down = exit_code;
     }
 
     public void DisplayInsufficientCash(User u) {
@@ -163,7 +161,9 @@ namespace Eksamensopgave2017 {
     }
 
     public void Start() {
-      Parser.Start();
+      while (_shutting_down == -1)
+        DisplayReadyForCommand();
+      Environment.Exit(_shutting_down);
     }
   }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Eksamensopgave2017.Exceptions;
+
 namespace Eksamensopgave2017 {
   public class StregsystemController {
 
@@ -82,36 +83,25 @@ namespace Eksamensopgave2017 {
       if (u == null)
         throw new UserNotFoundException(split[0]);
       try {
-          if (split.Length == 2) {
-            Product p = Product.Find(int.Parse(split[1]));
-            BuyTransaction purchase = new BuyTransaction(p);
-            purchase.User = u;
+        if (split.Length == 2) {
+          Product p = Product.Find(int.Parse(split[1]));
+          BuyTransaction purchase = new BuyTransaction(user: u, product: p);
+          purchase.Execute();
+        } else {
+          Product p = Product.Find(int.Parse(split[2]));
+          int count = int.Parse(split[1]);
+
+          for (int i = 0; i < count; i++) {
+            BuyTransaction purchase = new BuyTransaction(user: u, product: p);
             purchase.Execute();
-          } else {
-            Product p = Product.Find(int.Parse(split[2]));
-            int count = int.Parse(split[1]);
-
-            for (int i = 0; i < count; i++) {
-              BuyTransaction purchase = new BuyTransaction(p);
-              purchase.User = u;
-              purchase.Execute();
-            }
-            //UI.DisplayUserBuysProduct(count, purchase);
           }
-        } catch (InsufficientCreditsException e) {
-          UI.DisplayInsufficientCash(e.User);
-        } catch (UserNotFoundException e) {
-          UI.DisplayUserNotFound(e.Username);
-        } catch (InsufficientCreditsException) {
-
-        } catch (InsufficientCreditsException) {
-
+          UI.DisplayUserBuysProduct(count, p);
         }
-    }
-
-    public void Start() {
-      while(true)
-        UI.DisplayReadyForCommand();
+      } catch (InsufficientCreditsException e) {
+        UI.DisplayInsufficientCash(e.User);
+      } catch (UserNotFoundException e) {
+        UI.DisplayUserNotFound(e.Username);
+      }
     }
   }
 }

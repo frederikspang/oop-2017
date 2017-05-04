@@ -3,9 +3,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Eksamensopgave2017 {
   class Program {
@@ -14,7 +11,7 @@ namespace Eksamensopgave2017 {
         IStregsystem stregsystem = new Stregsystem();
         IStregsystemUI ui = new StregsystemCLI(stregsystem);
 
-        ((StregsystemCLI)ui).Start();
+        ui.Start();
 
         foreach (User prod in User.All) {
           Debug.WriteLine(prod);
