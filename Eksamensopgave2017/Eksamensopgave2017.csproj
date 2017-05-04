@@ -53,14 +53,14 @@
     <Compile Include="Interfaces\IStregsystemUI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Models\Product.cs" />
-    <Compile Include="Transaction\Transaction.cs" />
-    <Compile Include="Transaction\BuyTransaction.cs" />
-    <Compile Include="Transaction\InsertCashTransaction.cs" />
     <Compile Include="Exceptions\InsufficientCreditsException.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Controllers\StregsystemController.cs" />
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Exceptions\ProductInactiveException.cs" />
+    <Compile Include="Models\Transaction\BuyTransaction.cs" />
+    <Compile Include="Models\Transaction\InsertCashTransaction.cs" />
+    <Compile Include="Models\Transaction\Transaction.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -74,10 +74,10 @@
   <ItemGroup>
     <Folder Include="Models\" />
     <Folder Include="Interfaces\" />
-    <Folder Include="Transaction\" />
     <Folder Include="Data\" />
     <Folder Include="Exceptions\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Models\Transaction\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
