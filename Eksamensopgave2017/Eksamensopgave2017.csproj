@@ -47,7 +47,6 @@
     <Compile Include="StregsystemLoader.cs" />
     <Compile Include="StregsystemCLI.cs" />
     <Compile Include="Models\BaseModel.cs" />
-    <Compile Include="Interfaces\IStregsystem.cs" />
     <Compile Include="Interfaces\IStregsystemUI.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Exceptions\InsufficientCreditsException.cs" />

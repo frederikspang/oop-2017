@@ -8,6 +8,8 @@ using System.Text.RegularExpressions;
 namespace Eksamensopgave2017 {
   public class User : BaseModel<User>, IComparable {
 
+    decimal _balance;
+
     #region Properties
     public string Email { get; set; }
     public string Username { get; set; }
@@ -17,7 +19,10 @@ namespace Eksamensopgave2017 {
 
     public string Name => $"{Firstname} {Lastname}";
 
-    public decimal Balance { get; set; }
+    public decimal Balance { 
+      get { return _balance; }
+      set { _balance = value; } 
+    }
 
     public List<Transaction> Transactions => Transaction.Where(t => t.User == this).ToList();
 
