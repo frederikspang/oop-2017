@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Diagnostics;
 
 namespace Eksamensopgave2017 {
   public abstract class Transaction : BaseModel<Transaction> {
@@ -27,7 +26,8 @@ namespace Eksamensopgave2017 {
 
       Date = DateTime.Now;
       _booked = true;
-      var dir = Directory.GetCurrentDirectory() + "/Data/Log/";
+      char sep = Path.DirectorySeparatorChar; // Unix Compatibity
+      var dir = Directory.GetCurrentDirectory() + $"{sep}Data{sep}Log{sep}";
       var filename = "Transactions.log";
       if (!Directory.Exists(dir)) {
         Directory.CreateDirectory(dir);
@@ -35,6 +35,7 @@ namespace Eksamensopgave2017 {
       using (StreamWriter w = File.AppendText(dir+filename)) {
         w.WriteLine($"[{GetType()} - {Date.ToString()}] {User.Name}[{User.Username}] {Amount} kr");
       }
+
       return true;
     }
 
