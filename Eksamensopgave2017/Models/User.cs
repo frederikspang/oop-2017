@@ -19,7 +19,7 @@ namespace Eksamensopgave2017 {
 
     public decimal Balance { get; set; }
 
-    public List<Transaction> Transactions => Transaction.All.Where(t => t.User == this).ToList();
+    public List<Transaction> Transactions => Transaction.Where(t => t.User == this).ToList();
 
     #endregion Properties
 
@@ -74,9 +74,8 @@ namespace Eksamensopgave2017 {
     }
     #endregion Generators and Validators
 
-    public void AddCredit(int credit) {
-      //TODO: Add Transaction as well. Maybe move logic to Execute on InsertCashTransaction
-      Balance += credit / 100;
+    public void AddCredit(decimal credit) {
+      Balance += credit;
     }
 
     #region Interfaces

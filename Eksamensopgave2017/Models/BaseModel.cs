@@ -20,6 +20,10 @@ namespace Eksamensopgave2017 {
       } 
     }
 
+    public static IEnumerable<T> Where(Func<T, bool> match) {
+      return All.Where(match);
+    }
+
     public static T Find(int id) {
       return _all.Find(obj => (obj.Id == id) );
     }

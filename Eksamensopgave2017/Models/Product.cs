@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+
+
 namespace Eksamensopgave2017 {
+  /// <summary>
+  /// Product.
+  /// </summary>
   public class Product : BaseModel<Product> {
     public bool CanBeBoughtOnCredit { get; set; }
     public bool _active { get; set; }
@@ -16,7 +21,11 @@ namespace Eksamensopgave2017 {
 
       Id = id;
 
-      var namecheck = new Regex(@"</?[\d\w]{1,15}>");
+      // Match HTML med < > og måske en / som tegn nr 2. ? er {0,1} match
+      // Virker kun på html tags på 1-15 tegn eller lavere
+      // - Kun fordi den længste jeg kan komme i tanke om er <blockquote> på 10.. Og så en safetybuffer oveni
+      // Matcher ikke HTML med Classes, eller ID'er eller andre attributter (data-x, disabled m.fl)
+      var namecheck = new Regex(@"</?[\d\w]{1,15}>"); 
       Name = namecheck.Replace(name, "").Replace("\"", "");
       Price = price;
       _active = active;

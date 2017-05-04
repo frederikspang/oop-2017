@@ -1,9 +1,7 @@
 ﻿//20165250_Frederik_Spang_Thomsen
 
 using System;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace Eksamensopgave2017 {
   class Program {

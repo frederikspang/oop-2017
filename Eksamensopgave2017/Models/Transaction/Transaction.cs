@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Diagnostics;
+
 namespace Eksamensopgave2017 {
   public abstract class Transaction : BaseModel<Transaction> {
     public static int NextID = 1;
@@ -17,10 +18,21 @@ namespace Eksamensopgave2017 {
 
     public bool Booked => _booked;
 
+    public Transaction() {
+      Id = Id == default(int) ? NextID++ : Id;
+    }
+
     public bool Execute() {
       Date = DateTime.Now;
       _booked = true;
-
+      var dir = Directory.GetCurrentDirectory() + "/Data/Log/";
+      var filename = "Transactions.log";
+      if (!Directory.Exists(dir)) {
+        Directory.CreateDirectory(dir);
+      }
+      using (StreamWriter w = File.AppendText(dir+filename)) {
+        w.WriteLine($"[{GetType()} - {Date.ToString()}] {User.Name}[{User.Username}] {Amount} kr");
+      }
       return true;
     }
 

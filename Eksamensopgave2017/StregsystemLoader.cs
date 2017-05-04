@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 
 namespace Eksamensopgave2017 {
   public static class StregsystemLoader {
@@ -31,7 +28,7 @@ namespace Eksamensopgave2017 {
         string[] split = line.Split(';');
 
         if (split[0] == "id")
-          continue; // No continue in the threaded foreach
+          continue;
 
         if (int.Parse(split[0]) > 0) {
           // Loaded into User.All by BaseModel Constructor

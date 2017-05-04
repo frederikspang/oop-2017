@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Eksamensopgave2017.Exceptions;
-using System.Linq.Expressions;
 
 namespace Eksamensopgave2017 {
   public class StregsystemController {
@@ -50,8 +49,10 @@ namespace Eksamensopgave2017 {
         {
           ":addcredits",
           (x, y) => {
-            User.FindBy("Username", x).AddCredit(y);
-            UI.DisplayAddedCreditsToUser(User.FindBy("Username", x), y);
+            User u = User.FindBy("Username", x);
+            var transaction = new InsertCashTransaction(u, decimal.Parse(y));
+            transaction.Execute();
+            UI.DisplayAddedCreditsToUser(User.FindBy("Username", x), decimal.Parse(y));
           }
         }
       };

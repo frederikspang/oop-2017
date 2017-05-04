@@ -62,21 +62,21 @@ namespace Eksamensopgave2017 {
     }
 
     public void DisplayUserBuysProduct(int count, Product product, User user) {
-      Console.WriteLine("[" + user.Username + "] Bought " + count.ToString() + "x " + product.Name + " for " + (product.Price * count).ToString() + "kr");
+      Console.WriteLine($"[{user.Username}] Bought {count.ToString()}x {product.Name} for {(product.Price * count).ToString()} kr");
       if (user.Balance < 50)
         DisplayBalanceBelowFifty();
     }
 
     public void DisplayInsufficientCash(User u) {
-      Console.WriteLine("[" + u.Username + "] Not enough credit to buy product");
+      Console.WriteLine($"[{u.Username}] Not enough credit to buy product");
     }
 
     public void DisplayInsufficientCash(User u, int count) {
-      Console.WriteLine("[" + u.Username + "] Not enough credit to buy " + count.ToString() + "x products");
+      Console.WriteLine($"[{u.Username}] Not enough credit to buy {count.ToString()} x products");
     }
 
     public void DisplayInsufficientCash(User u, Product p) {
-      Console.WriteLine("[" + u.Username + "] Not enough credit to buy " + p.Name);
+      Console.WriteLine($"[{u.Username}] Not enough credit to buy {p.Name}");
     }
 
     public void DisplayGeneralError(string msg) {
@@ -96,8 +96,8 @@ namespace Eksamensopgave2017 {
       }
     }
 
-    public void DisplayAddedCreditsToUser(User u, double amount) {
-      Console.WriteLine("Added " + amount + "kr to user [" + u.Username + "]");
+    public void DisplayAddedCreditsToUser(User u, decimal amount) {
+      Console.WriteLine($"Added {amount} kr to user [{u.Username}]");
     }
 
     private void DisplayBalanceBelowFifty() {
@@ -107,7 +107,7 @@ namespace Eksamensopgave2017 {
     private void DisplayActiveProducts() {
       Console.Write(string.Format("{0, -4}|{1, 7} - {2}", "ID", "Price", "Product"));
       DisplayHelpOptions();
-      foreach (Product p in Product.All.Where(p => p.Active())) {
+      foreach (Product p in Product.Where(p => p.Active())) {
         Console.WriteLine(String.Format("{0, -4}|{1, 7:F} - {2}", p.Id, p.Price, p.Name));
       }
     }
